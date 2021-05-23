@@ -20,7 +20,7 @@ export default function Home() {
     <>
       <Text>Proyectos</Text>
 
-      {context.listProjects !== undefined &&
+      {context.listProjects !== null &&
         context.listProjects.map((project) => {
           return (
             <ItemProject
