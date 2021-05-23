@@ -20,17 +20,18 @@ export default function Home() {
     <>
       <Text>Proyectos</Text>
 
-      {context.listProjects.map((project) => {
-        return (
-          <ItemProject
-            project={project.project}
-            start={project.start}
-            end={project.end}
-            increment={project.increment}
-            count={project.count}
-          />
-        );
-      })}
+      {context.listProjects !== undefined &&
+        context.listProjects.map((project) => {
+          return (
+            <ItemProject
+              project={project.project}
+              start={project.start}
+              end={project.end}
+              increment={project.increment}
+              count={project.count}
+            />
+          );
+        })}
 
       <Link href="/addProject">
         <Button size="lg" colorScheme="teal" m={6}>
