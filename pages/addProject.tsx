@@ -4,12 +4,16 @@ import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
 import { useAppContext } from '../context/Context';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { PersistData } from '../utils/storage';
+import { Project } from '../types/project';
+import { Actions } from '../enums/actions';
 
-const initialState = {
+const initialState: Project = {
   project: '',
   start: 0,
   end: 10,
   increment: 1,
+  count: 0,
 };
 
 function AddFunction() {
@@ -29,9 +33,10 @@ function AddFunction() {
   const createProyect = () => {
     setContext((prevState) => ({
       selected: configuration,
-      listProjects: [...prevState.listProjects, { configuration }],
+      listProjects: [...prevState.listProjects, configuration],
     }));
 
+    PersistData(configuration, Actions.Add);
     router.push('/project');
   };
 

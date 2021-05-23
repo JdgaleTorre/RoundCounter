@@ -1,17 +1,38 @@
 import { Flex, Heading, Text, Button } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SettingsIcon, SmallAddIcon, MinusIcon } from '@chakra-ui/icons';
+import { PersistData } from '../utils/storage';
+import { Actions } from '../enums/actions';
 
-function Counter({ start, end, increment }) {
-  const [count, setCount] = useState(start);
+function Counter({
+  project,
+  start,
+  end,
+  increment,
+  count,
+}: {
+  project: string;
+  start: number;
+  end: number;
+  increment: number;
+  count: number;
+}) {
+  const [countIntern, setCount] = useState(count);
   const [disabled, setDisabled] = useState(false);
   const [finished, setFinished] = useState(false);
   const Audio = useRef(null);
   const AudioEnd = useRef(null);
 
+  useEffect(() => {
+    PersistData(
+      { project, start, end, increment, count: countIntern },
+      Actions.Update
+    );
+  }, [countIntern]);
+
   const onAdd = () => {
-    if (isValid(count + increment)) {
-      setCount(count + increment);
+    if (isValid(countIntern + increment)) {
+      setCount(countIntern + increment);
       if (Audio.current !== undefined) {
         Audio.current.play();
         setDisabled(true);
@@ -23,8 +44,8 @@ function Counter({ start, end, increment }) {
   };
 
   const onSubtract = () => {
-    if (isValid(count - increment)) {
-      setCount(count - increment);
+    if (isValid(countIntern - increment)) {
+      setCount(countIntern - increment);
       if (Audio.current !== undefined) {
         Audio.current.play();
         setDisabled(true);
@@ -40,7 +61,7 @@ function Counter({ start, end, increment }) {
       setFinished(true);
       AudioEnd.current.play();
       return true;
-    } else if (value <= end) {
+    } else if (value <= end && value >= 0) {
       return true;
     } else if (value <= 0) {
       return false;
@@ -73,7 +94,7 @@ function Counter({ start, end, increment }) {
           textAlign="right"
           fontSize="2rem"
         >
-          {count}
+          {countIntern}
         </Text>
         <Flex flexDirection="row" width="100%" alignItems="center">
           <Button
@@ -83,7 +104,7 @@ function Counter({ start, end, increment }) {
             p={5}
             onClick={onAdd}
             size="lg"
-            disabled={disabled || finished}
+            isLoading={disabled || finished}
           >
             <SmallAddIcon w={10} h={10} />
           </Button>
@@ -92,7 +113,7 @@ function Counter({ start, end, increment }) {
             onClick={onSubtract}
             p={5}
             size="md"
-            disabled={disabled || finished}
+            isLoading={disabled || finished}
           >
             <MinusIcon w={5} h={5} />
           </Button>

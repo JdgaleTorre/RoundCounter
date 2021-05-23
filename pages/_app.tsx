@@ -1,7 +1,9 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Button, Text } from '@chakra-ui/react';
 import { Flex } from '@chakra-ui/react';
 import { AppContextProvider } from '../context/Context';
 import Head from 'next/head';
+import { HamburgerIcon, TimeIcon, AddIcon } from '@chakra-ui/icons';
+import NavButton from '../components/navButton';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -9,7 +11,7 @@ function MyApp({ Component, pageProps }) {
       <ChakraProvider>
         <Head>
           <meta charSet="utf-8" />
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <meta
             name="viewport"
             content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
@@ -91,13 +93,38 @@ function MyApp({ Component, pageProps }) {
             href="/icons/favicon-16x16.png"
           />
         </Head>
-        <Flex
-          alignItems="center"
-          justifyContent="center"
-          height="100vh"
-          flexDirection="column"
-        >
-          <Component {...pageProps} />
+        <Flex height="100vh" flexDirection="column">
+          <Text
+            backgroundColor="gray.800"
+            color="gray.100"
+            fontSize="2rem"
+            textAlign="center"
+          >
+            Round-Counter
+          </Text>
+          <Flex
+            flexDirection="row"
+            justifyContent="space-between"
+            backgroundColor="gray.200"
+          >
+            <NavButton title="Listado" route="/">
+              <HamburgerIcon w={6} h={6} />
+            </NavButton>
+            <NavButton title="Contador" route="/project">
+              <TimeIcon w={6} h={6} />
+            </NavButton>
+            <NavButton title="Nuevo" route="/addProject">
+              <AddIcon w={6} h={6} />
+            </NavButton>
+          </Flex>
+          <Flex
+            height="90vh"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Component {...pageProps} />
+          </Flex>
         </Flex>
       </ChakraProvider>
     </AppContextProvider>

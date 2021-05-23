@@ -1,6 +1,6 @@
 import { useAppContext } from '../context/Context';
 import Counter from '../components/counter';
-import { Text } from '@chakra-ui/react';
+import { Text, Flex } from '@chakra-ui/react';
 
 function Project() {
   const { context, setContext } = useAppContext();
@@ -12,6 +12,8 @@ function Project() {
         start={selected.start}
         end={selected.end}
         increment={selected.increment}
+        count={selected.count}
+        project={selected.project}
       />
       <Text
         backgroundColor="gray.300"
