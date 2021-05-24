@@ -3,8 +3,9 @@ import Counter from '../components/counter';
 import { Text, Flex } from '@chakra-ui/react';
 
 function Project() {
-  const { context, setContext } = useAppContext();
-  const { selected } = context;
+  const { context } = useAppContext();
+  const { selected, listProjects } = context;
+  const { count } = listProjects.filter((p) => p.id === selected.id)[0];
 
   return (
     <>
@@ -13,7 +14,7 @@ function Project() {
         start={selected.start}
         end={selected.end}
         increment={selected.increment}
-        count={selected.count}
+        count={count}
         project={selected.project}
       />
       <Text
