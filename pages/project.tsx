@@ -8,7 +8,7 @@ function Project() {
   const selectedFromList = listProjects.filter((p) => p.id === selected.id);
   let count = 0;
 
-  if (selectedFromList.lenght > 0) {
+  if (selectedFromList.length > 0) {
     count = selectedFromList[0].count;
   }
 
