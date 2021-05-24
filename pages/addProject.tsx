@@ -9,6 +9,7 @@ import { Project } from '../types/project';
 import { Actions } from '../enums/actions';
 
 const initialState: Project = {
+  id: 0,
   project: '',
   start: 0,
   end: 10,
