@@ -4,8 +4,10 @@ import { AppContextProvider } from '../context/Context';
 import Head from 'next/head';
 import { HamburgerIcon, TimeIcon, AddIcon } from '@chakra-ui/icons';
 import NavButton from '../components/navButton';
+import { InitializeBD } from '../utils/storage';
 
 function MyApp({ Component, pageProps }) {
+  InitializeBD();
   return (
     <AppContextProvider>
       <ChakraProvider>

@@ -9,6 +9,7 @@ function Project() {
   return (
     <>
       <Counter
+        id={selected.id}
         start={selected.start}
         end={selected.end}
         increment={selected.increment}

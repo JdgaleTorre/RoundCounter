@@ -5,12 +5,14 @@ import { PersistData } from '../utils/storage';
 import { Actions } from '../enums/actions';
 
 function Counter({
+  id,
   project,
   start,
   end,
   increment,
   count,
 }: {
+  id: number;
   project: string;
   start: number;
   end: number;
@@ -25,7 +27,7 @@ function Counter({
 
   useEffect(() => {
     PersistData(
-      { project, start, end, increment, count: countIntern },
+      { id, project, start, end, increment, count: countIntern },
       Actions.Update
     );
   }, [countIntern]);

@@ -1,5 +1,15 @@
 import { Project } from '../types/project';
 import { Actions } from '../enums/actions';
+import Dexie from 'dexie';
+const BDVersion = 1;
+var db;
+
+const InitializeBD = () => {
+  db = new Dexie('projects');
+  db.version(BDVersion).stores({
+    project: '++id,project,start,end,increment,count',
+  });
+};
 
 const PersistData = (project: Project, action: number) => {
   try {
@@ -7,40 +17,31 @@ const PersistData = (project: Project, action: number) => {
       const listProjects = GetData();
       switch (action) {
         case Actions.Add:
-          localStorage.setItem(
-            'listProjects',
-            JSON.stringify([...listProjects, project])
-          );
+          db.project.put(project);
           break;
         case Actions.Update:
-          localStorage.setItem(
-            'listProjects',
-            JSON.stringify([
-              ...listProjects.filter((p) => p.project !== project.project),
-              project,
-            ])
-          );
+          db.project.update(project.id, {
+            start: project.start,
+            end: project.end,
+            increment: project.increment,
+            count: project.count,
+          });
           break;
         case Actions.Remove:
-          localStorage.setItem(
-            'listProjects',
-            JSON.stringify([
-              ...listProjects.filter((p) => p.project !== project.project),
-            ])
-          );
+          db.project.where({ project: project.project }).delete();
           break;
       }
     }
     return true;
   } catch (error) {
+    console.log(error);
     return false;
   }
 };
 
-const GetData = () => {
-  if (typeof window !== 'undefined') {
-    return JSON.parse(localStorage.getItem('listProjects'));
-  }
+const GetData = async () => {
+  var result = await db.project.toArray();
+  return result;
 };
 
-export { PersistData, GetData };
+export { PersistData, GetData, InitializeBD };

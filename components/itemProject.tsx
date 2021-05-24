@@ -21,12 +21,14 @@ import { PersistData } from '../utils/storage';
 import { Actions } from '../enums/actions';
 
 function ItemProject({
+  id,
   project,
   start,
   end,
   increment,
   count,
 }: {
+  id: number;
   project: string;
   start: number;
   end: number;
@@ -43,13 +45,13 @@ function ItemProject({
         ...prevState.listProjects.filter((p) => p.project !== project),
       ],
     }));
-    PersistData({ project, start, end, increment, count }, Actions.Remove);
+    PersistData({ id, project, start, end, increment, count }, Actions.Remove);
   };
 
   const ContinueProject = () => {
     setContext((prevState) => ({
       ...prevState,
-      selected: { project, start, end, increment, count },
+      selected: { id, project, start, end, increment, count },
     }));
 
     router.push('/project');
@@ -76,9 +78,12 @@ function ItemProject({
           count: p.count,
         };
       }),
-      selected: { project, start, end, increment, count: 0 },
+      selected: { id, project, start, end, increment, count: 0 },
     }));
-    PersistData({ project, start, end, increment, count: 0 }, Actions.Update);
+    PersistData(
+      { id, project, start, end, increment, count: 0 },
+      Actions.Update
+    );
     router.push('/project');
   };
 

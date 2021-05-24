@@ -9,29 +9,36 @@ export default function Home() {
   const { context, setContext } = useAppContext();
 
   useEffect(() => {
-    const storage = GetData();
-    setContext((prevState) => ({
-      ...prevState,
-      listProjects: storage,
-    }));
+    const getData = async () => {
+      const result = await GetData();
+      return result;
+    };
+    getData().then((data) => {
+      if (typeof data === typeof []) {
+        setContext((prevState) => ({
+          ...prevState,
+          listProjects: data,
+        }));
+      }
+    });
   }, []);
-
   return (
     <>
       <Text>Proyectos</Text>
 
-      {context.listProjects !== null &&
-        context.listProjects.map((project) => {
-          return (
-            <ItemProject
-              project={project.project}
-              start={project.start}
-              end={project.end}
-              increment={project.increment}
-              count={project.count}
-            />
-          );
-        })}
+      {context.listProjects.map((project) => {
+        return (
+          <ItemProject
+            key={project.id}
+            id={project.id}
+            project={project.project}
+            start={project.start}
+            end={project.end}
+            increment={project.increment}
+            count={project.count}
+          />
+        );
+      })}
 
       <Link href="/addProject">
         <Button size="lg" colorScheme="teal" m={6}>
