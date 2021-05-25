@@ -11,27 +11,26 @@ const InitializeBD = () => {
   });
 };
 
-const PersistData = (project: Project, action: number) => {
+const PersistData = (newProject: Project, action: number) => {
   try {
-    if (typeof window !== 'undefined') {
-      const listProjects = GetData();
-      switch (action) {
-        case Actions.Add:
-          db.project.put(project);
-          break;
-        case Actions.Update:
-          db.project.update(project.id, {
-            start: project.start,
-            end: project.end,
-            increment: project.increment,
-            count: project.count,
-          });
-          break;
-        case Actions.Remove:
-          db.project.where({ project: project.project }).delete();
-          break;
-      }
+    switch (action) {
+      case Actions.Add:
+        const { project, start, end, increment, count } = newProject;
+        db.project.put({ project, start, end, increment, count });
+        break;
+      case Actions.Update:
+        db.project.update(newProject.id, {
+          start: newProject.start,
+          end: newProject.end,
+          increment: newProject.increment,
+          count: newProject.count,
+        });
+        break;
+      case Actions.Remove:
+        db.project.where({ project: newProject.project }).delete();
+        break;
     }
+
     return true;
   } catch (error) {
     console.log(error);

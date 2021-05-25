@@ -1,7 +1,6 @@
 import {
   Flex,
   Text,
-  Button,
   Badge,
   Menu,
   MenuButton,
@@ -58,26 +57,14 @@ function ItemProject({
   };
 
   const ResetProject = () => {
+    let copy = context.listProjects.filter((p) => p.id === id)[0];
+    copy.count = 0;
     setContext((prevState) => ({
       ...prevState,
-      listProjects: prevState.listProjects.map((p) => {
-        if (p.project === project) {
-          return {
-            project: p.project,
-            start: p.start,
-            end: p.end,
-            increment: p.increment,
-            count: 0,
-          };
-        }
-        return {
-          project: p.project,
-          start: p.start,
-          end: p.end,
-          increment: p.increment,
-          count: p.count,
-        };
-      }),
+      listProjects: [
+        ...prevState.listProjects.filter((p) => p.id !== id),
+        copy,
+      ],
       selected: { id, project, start, end, increment, count: 0 },
     }));
     PersistData(
@@ -111,7 +98,7 @@ function ItemProject({
         borderWidth={2}
         pos="relative"
       >
-        {count}
+        {count === 0 ? start : count}
         <Badge
           pos="absolute"
           top={-2}

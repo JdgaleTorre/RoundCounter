@@ -24,8 +24,6 @@ export default function Home() {
   }, []);
   return (
     <>
-      <Text>Proyectos</Text>
-
       {context.listProjects.map((project) => {
         return (
           <ItemProject

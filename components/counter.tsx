@@ -1,8 +1,7 @@
-import { Flex, Heading, Text, Button } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { Flex, Text, Heading, Button } from '@chakra-ui/react';
+import { useRef, useState } from 'react';
 import { SettingsIcon, SmallAddIcon, MinusIcon } from '@chakra-ui/icons';
-import { PersistData } from '../utils/storage';
-import { Actions } from '../enums/actions';
+import Link from 'next/link';
 
 function Counter({
   id,
@@ -11,6 +10,7 @@ function Counter({
   end,
   increment,
   count,
+  persist,
 }: {
   id: number;
   project: string;
@@ -18,23 +18,18 @@ function Counter({
   end: number;
   increment: number;
   count: number;
+  persist: (count, id, project, start, end, increment) => void;
 }) {
-  const [countIntern, setCount] = useState(count);
+  const [countIntern, setCount] = useState(count === 0 ? start : count);
   const [disabled, setDisabled] = useState(false);
   const [finished, setFinished] = useState(false);
   const Audio = useRef(null);
   const AudioEnd = useRef(null);
 
-  useEffect(() => {
-    PersistData(
-      { id, project, start, end, increment, count: countIntern },
-      Actions.Update
-    );
-  }, [countIntern]);
-
   const onAdd = () => {
     if (isValid(countIntern + increment)) {
       setCount(countIntern + increment);
+      persist(countIntern + increment, id, project, start, end, increment);
       if (Audio.current !== undefined) {
         Audio.current.play();
         setDisabled(true);
@@ -48,6 +43,7 @@ function Counter({
   const onSubtract = () => {
     if (isValid(countIntern - increment)) {
       setCount(countIntern - increment);
+      persist(countIntern - increment, id, project, start, end, increment);
       if (Audio.current !== undefined) {
         Audio.current.play();
         setDisabled(true);
@@ -83,7 +79,10 @@ function Counter({
         <Heading mb={6}>
           <Flex flexDirection="row">
             <Text flex={1}>Counter</Text>
-            <SettingsIcon />
+
+            <Link href="/configureProject">
+              <SettingsIcon />
+            </Link>
           </Flex>
         </Heading>
 

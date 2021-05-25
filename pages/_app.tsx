@@ -119,12 +119,7 @@ function MyApp({ Component, pageProps }) {
               <AddIcon w={6} h={6} />
             </NavButton>
           </Flex>
-          <Flex
-            height="90vh"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-          >
+          <Flex height="90vh" flexDirection="column" alignItems="center" pt={5}>
             <Component {...pageProps} />
           </Flex>
         </Flex>

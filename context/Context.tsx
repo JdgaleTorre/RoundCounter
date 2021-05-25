@@ -12,7 +12,7 @@ export const AppContext = createContext(null);
 //Provider
 export const AppContextProvider = ({ children }) => {
   const [context, setContext] = useState({
-    selected: { project: '', start: 0, end: 10, increment: 1, count: 0 },
+    selected: { project: '', start: 0, end: 10, increment: 1, count: 0, id: 0 },
     listProjects: [],
   });
 
