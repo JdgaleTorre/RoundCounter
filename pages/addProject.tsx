@@ -38,7 +38,7 @@ function AddFunction() {
     }));
 
     PersistData(configuration, Actions.Add);
-    router.push('/project');
+    router.push('/');
   };
 
   return (
